@@ -56,7 +56,7 @@ def update_led(condition):
     elif (condition == 'Sunny' or condition == 'Clear'):
         print("LED: YELLOW")
     elif (condition == 'Snow' or condition == 'Clouds' or condition == 'Fog'):
-        print("LEF: WHITE")
+        print("LED: WHITE")
     else:
         print("LED: RED")
 
