@@ -2,25 +2,26 @@
 # To get dependecies:                                           pipenv install --ignore-pipfile
 # To run:                                                       pipenv run ./weather.py
 
-# LED Legend
-#   Blue: Rain, Drizzle, Mist, Thunderstorm
-#   Yellow: Sunny, Clear
-#   White: Snow, Clouds, Fog
-#   Red: Unknown
+# LED/GPIO Legend
+#   Blue(27): Rain, Drizzle, Mist, Thunderstorm
+#   Green(22): Sunny, Clear
+#   Yellow(17): Snow, Clouds, Fog
+#   Red(4): Unknown
 
 import time
 import datetime
 import requests
-import gpiozero
+from gpiozero import LED
 
 # Constants
 SAMPLE_API_KEY = "b6907d289e10d714a6e88b30761fae22"
 API_KEY = "7592c66b736724c6f25034878fe84abb"
 API_BASE_URL = f"https://api.openweathermap.org/data/2.5/weather?APPID={API_KEY}"
 
-BLUE_LED = 0
-YELLOW_LED = 1
-WHITE_LED = 2
+BLUE_LED = 27
+GREEN_LED = 22
+YELLOW_LED = 17
+RED_LED = 4
 
 def main():
     while (True):
@@ -53,12 +54,23 @@ def get_timestamp():
 
 def update_led(condition):
     if (condition == 'Rain' or condition == 'Drizzle' or condition == 'Mist' or condition == 'Thunderstorm'):
-        print("LED: BLUE")
+        turn_off_LEDs()
+        LED(BLUE_LED).on()
     elif (condition == 'Sunny' or condition == 'Clear'):
-        print("LED: YELLOW")
+        turn_off_LEDs()
+        LED(GREEN_LED).on()
     elif (condition == 'Snow' or condition == 'Clouds' or condition == 'Fog'):
-        print("LED: WHITE")
+        turn_off_LEDs()
+        LED(YELLOW_LED).on()
     else:
-        print("LED: RED")
+        turn_off_LEDs()
+        LED(RED_LED).on()
+
+def turn_off_LEDs():
+    LED(BLUE_LED).off()
+    LED(GREEN_LED).off()
+    LED(YELLOW_LED).off()
+    LED(RED_LED).off()
+
 
 main()
